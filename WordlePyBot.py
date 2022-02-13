@@ -149,7 +149,7 @@ for j in range(7):
 
         #Pick random guess from the top 10 pct of guesses
         guess_word = random.choice(top_10_pct_guess)
-        guess_likelihood = round(guess_dict.get(guess_word) / sum(guess_dict.values()), 4)
+        guess_likelihood = round(100 * guess_dict.get(guess_word) / sum(guess_dict.values()), 2)
         print('Try guessing: ', guess_word, ' (', guess_likelihood, '% likelihood)')
         sug_ans = 1
         
@@ -183,8 +183,8 @@ for j in range(7):
         print('It took PyBot ', j + 1, ' guesses!')
         print()
         print('PyBot''s guess history was:')
-        for gh in guess_history:
-            print(gh)
+        for ghr in range(len(guess_history)):
+            print(ghr, ' - ', guess_likelihood_history[ghr], '% Estimated Likelihood')
         break
 
     #If guess was not Wordle of the day, gather user feedback about gray, green, and yellow boxes
