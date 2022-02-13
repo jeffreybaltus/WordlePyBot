@@ -6,10 +6,8 @@
 import nltk
 from nltk.corpus import words
 #nltk.download()
-from IPython.display import clear_output
 import random
 import pandas as pd
-
 import os
 
 def clearConsole():
@@ -40,6 +38,7 @@ letters_in_correct_spot = ''
 letters_in_incorrect_spot = ''
 guess_word = ''
 guess_history = []
+guess_likelihood_history = []
 
 
 #Begin making guesses
@@ -117,6 +116,7 @@ for j in range(7):
     was_correct_guess = 'X'
     sug_ans = 0
     guess_dict = {}
+    guess_likelihood = 0.00
     while was_correct_guess == 'X':
 
         #Which valid guess has the most unique letters in common with other valid guesses?
@@ -135,7 +135,7 @@ for j in range(7):
                             d = d + 1
                 #Prioritize potential guesses that are in most common words
                 if a in mcw:
-                    d = (d + 1) * 2
+                    d = (d + 1) * 3
                 guess_dict[a] = d
         
         #Sort the count of commonality by most likely to least common
@@ -149,7 +149,8 @@ for j in range(7):
 
         #Pick random guess from the top 10 pct of guesses
         guess_word = random.choice(top_10_pct_guess)
-        print('Try guessing: ', guess_word)
+        guess_likelihood = round(guess_dict.get(guess_word) / sum(guess_dict.values()), 4)
+        print('Try guessing: ', guess_word, ' (', guess_likelihood, '% likelihood)')
         sug_ans = 1
         
         #Initial user feedback about whether the guess was valid or not
@@ -169,6 +170,7 @@ for j in range(7):
     
     #Add guess to guess history
     guess_history.append(guess_word)
+    guess_likelihood_history.append(guess_likelihood)
     
     #Was the Wordle of the day guessed?
     if was_correct_guess == 'Y':
@@ -220,13 +222,3 @@ for j in range(7):
     #Ensure that the eligible dictionary is not reset entirely to the full wordle_dictionary
     #This fixes the potential issue of yellow box guesses returning a similar (incorrect) yellow box guess
     eligible_dictionary = eligible_dictionary_cur.copy()
-    print()
-
-print()
-print()
-play_again = input("Would you like to play again? (Enter Y or N):")
-play_again = play_again.upper()
-if play_again == 'Y':
-    print('CLICK THE SECOND BUTTON (''Click to Restart and Run all Cells'')')
-if play_again == 'Y':
-    initialize()
