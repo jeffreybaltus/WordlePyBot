@@ -184,7 +184,7 @@ for j in range(7):
         print()
         print('PyBot''s guess history was:')
         for ghr in range(len(guess_history)):
-            print(ghr, ' - ', guess_likelihood_history[ghr], '% Estimated Likelihood')
+            print(guess_history[ghr], ' - ', guess_likelihood_history[ghr], '% Estimated Likelihood')
         break
 
     #If guess was not Wordle of the day, gather user feedback about gray, green, and yellow boxes
